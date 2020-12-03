@@ -2,17 +2,16 @@ import * as Sequelize from 'sequelize';
 import database from '../../database';
 
 export interface IProvider {
-  id?: number;
-  company: string;
-  email: string;
-  category: string;
+  id?: number | string;
+  company?: string;
+  email?: string;
+  category?: string;
   createdAt?: string;
   updatedAt?: string;
   version?: number;
 }
 
 export interface ProviderModel extends Sequelize.Model<IProvider>, IProvider {
-
 }
 
 const columns = {
