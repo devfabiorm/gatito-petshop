@@ -24,7 +24,7 @@ const columns = {
     allowNull: false,
   }  ,
   category: {
-    type: Sequelize.ENUM('ração', 'briquedos'),
+    type: Sequelize.ENUM('ração', 'brinquedos'),
     allowNull: false,
   }
 }

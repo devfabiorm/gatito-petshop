@@ -21,6 +21,7 @@ export default class Provider {
   }
 
   async create() {
+    this.validate();
     const result = await ProviderTable.insert({
       company: String(this.company),
       email: String(this.email),
@@ -60,6 +61,22 @@ export default class Provider {
     }
 
     await ProviderTable.update(Number(this.id), dataToUpdate);
+  }
+
+  remove() {
+    return ProviderTable.remove(Number(this.id));
+  }
+
+  validate() {
+    const fields: Array<keyof this> = ['company', 'email', 'category'];
+
+    fields.forEach(field => {
+      const value = this[field];
+
+      if(typeof value !== 'string' || value.length === 0) {
+        throw new Error(`O campo '${field}' está inválido`);
+      }
+    });
   }
 
 }

@@ -29,9 +29,14 @@ export default {
   },
 
   update(id: number, data: IProvider) {
-    console.log(data);
     return Model.update(
-      data, { where: {id: id } }
+      data, { where: {id} }
     )
+  },
+
+  remove(id: number) {
+    return Model.destroy({
+      where: {id}
+    })
   }
 }
