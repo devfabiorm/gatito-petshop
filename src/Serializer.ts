@@ -1,6 +1,6 @@
 import ValueNotSupported from "./errors/ValueNotSupported";
 
-export default class Serializer {
+export class Serializer {
   public contentType!: string;
 
   json(data: object) {
@@ -15,3 +15,12 @@ export default class Serializer {
     throw new ValueNotSupported(this.contentType);
   }
 }
+
+export class ProviderSerializer extends Serializer {
+  constructor(contentType: string) {
+    super();
+    this.contentType = contentType;
+  }
+}
+
+export const acceptedFormats = ['application/json'];

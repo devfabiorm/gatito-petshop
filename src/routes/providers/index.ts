@@ -2,13 +2,15 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 import ProviderTable from './ProviderTable';
 import Provider from './Provider';
+import { ProviderSerializer } from '../../Serializer';
 
 const providers = Router();
 
 providers.get('/', async (request: Request, response: Response) => {
   const results = await ProviderTable.list();
-  
-  response.status(200).json(results);
+  const serializer = new ProviderSerializer(response.getHeader('Content-Type') as string)
+  response.status(200).send(serializer.serialize(results));
+  //response.status(200).json(results);
 })
 
 providers.post('/', async (request: Request, response: Response, next: NextFunction) => {
@@ -16,7 +18,9 @@ providers.post('/', async (request: Request, response: Response, next: NextFunct
     const data = request.body;
     const provider = new Provider(data);
     await provider.create();
-    response.status(201).json(provider);
+    const serializer = new ProviderSerializer(response.getHeader('Content-Type') as string)
+    response.status(200).send(serializer.serialize(provider));
+    // response.status(201).json(provider);
   } catch (error) {
    next(error);
   }
@@ -27,7 +31,9 @@ providers.get('/:id', async (request: Request, response: Response, next: NextFun
     const { id } = request.params;
     const provider = new Provider({ id });
     await provider.load()
-    response.status(200).json(provider);
+    const serializer = new ProviderSerializer(response.getHeader('Content-Type') as string)
+    response.status(200).send(serializer.serialize(provider));
+    //response.status(200).json(provider);
   }catch(error) {
    next(error);
   }
