@@ -1,5 +1,6 @@
 import Model from './ProviderModelTable';
 import { IProvider } from './ProviderModelTable';
+import NotFound from '../../errors/NotFound';
 
 interface IInsert {
   company: string;
@@ -22,7 +23,7 @@ export default {
     });
 
     if(!found) {
-      throw new Error('Fornecedor não encontrado');
+      throw new NotFound();
     }
 
     return found;

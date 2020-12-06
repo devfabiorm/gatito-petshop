@@ -1,6 +1,8 @@
 import ProviderTable from './ProviderTable';
 
 import { IProvider } from './ProviderModelTable'
+import InvalidField from '../../errors/InvalidField';
+import DataNotFound from '../../errors/DataNotFound';
 
 export default class Provider {
   id?: number | string;
@@ -57,7 +59,7 @@ export default class Provider {
     });
 
     if(Object.keys(dataToUpdate).length === 0) {
-      throw new Error('Não foram fornecidos dados para atualizar');
+      throw new DataNotFound();
     }
 
     await ProviderTable.update(Number(this.id), dataToUpdate);
@@ -74,7 +76,7 @@ export default class Provider {
       const value = this[field];
 
       if(typeof value !== 'string' || value.length === 0) {
-        throw new Error(`O campo '${field}' está inválido`);
+        throw new InvalidField(field as keyof Provider);
       }
     });
   }
