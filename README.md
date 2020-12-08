@@ -8,8 +8,7 @@ A simple CRUD API REST in NodeJS simulating a PetShop system.
 - [Sequelize](https://sequelize.org/)
 - [MySQL](https://www.mysql.com/)
 
-##Scripts
-
+## Scripts
 Install dependences
 ```sh
 yarn install
