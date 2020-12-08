@@ -10,7 +10,7 @@ interface IInsert {
 
 export default {
   list() {
-    return Model.findAll();
+    return Model.findAll({ raw: true });
   },
 
   insert(provider: IInsert) {

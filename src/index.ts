@@ -6,7 +6,7 @@ import routes from './routes';
 import InvalidField from './errors/InvalidField';
 import DataNotFound from './errors/DataNotFound';
 import ValueNotSupported from './errors/ValueNotSupported';
-import { acceptedFormats } from './Serializer';
+import { acceptedFormats, ErrorSerializer } from './Serializer';
 
 interface ResponseError extends ErrorRequestHandler {
   message: string
@@ -34,6 +34,7 @@ app.use((request, response, next) => {
 app.use(routes);
 
 app.use((error: ResponseError, request: Request, response: Response, next: NextFunction) => {
+  const serializer = new ErrorSerializer(response.getHeader('Content-Type') as string)
   let status = 500;
 
   if(error instanceof NotFound) {
@@ -47,8 +48,9 @@ app.use((error: ResponseError, request: Request, response: Response, next: NextF
   if(error instanceof ValueNotSupported) {
     status = 406;
   }
-
-  response.status(status).json({ message: error.message });
+  
+  response.status(status).send(serializer.serialize(error));
+  //response.status(status).json({ message: error.message });
 });
 
 app.listen(config.get('api.port'), () => console.log('A API está funcionando!'));

@@ -31,7 +31,7 @@ providers.get('/:id', async (request: Request, response: Response, next: NextFun
     const { id } = request.params;
     const provider = new Provider({ id });
     await provider.load()
-    const serializer = new ProviderSerializer(response.getHeader('Content-Type') as string)
+    const serializer = new ProviderSerializer(response.getHeader('Content-Type') as string, ['email', 'createdAt', 'updatedAt', 'version'])
     response.status(200).send(serializer.serialize(provider));
     //response.status(200).json(provider);
   }catch(error) {
